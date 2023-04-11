@@ -23,10 +23,32 @@
 - La durée de vie d'une session dépend de comment on l'a configuré. Par défaut, lors de l'installation de PHP, la durée d'une session est souvent de 24 minutes. 
 
 - Pour modifier la durée de vie d'une session, plusieurs moyens : 
-1) modifier dans le fichier de configuration de PHP sur mon serveur (donc la php.ini), la variable session.lifetime ou la variable session.gc_maxlifetime
+1) modifier dans le fichier de configuration de PHP sur mon serveur (donc le fichier php.ini), la variable session.lifetime ou la variable session.gc_maxlifetime
 https://www.php.net/manual/fr/session.configuration.php#ini.session.gc-maxlifetime
 
 2) dans son script, on peut utiliser la fonction session_set_cookie_params()
 https://www.php.net/manual/fr/function.session-set-cookie-params.php
 
 - Attention quand on modifie la durée de vie de sa session, à bien considérer et mesurer les risques en termes de cybersécurité au regard des avantages en termes de fonctionnalité. 
+
+
+## LES COOKIES
+
+- Le cookie est un petit fichier texte (max 65 ko) stocké sur la machine cliente
+
+- Pour retrouver les différents cookies, je vais dans mes DevTools, onglet "Application". Il existe deux types de cookies, 
+1) les cookies dits "propriétaires", exemple je suis sur le site www.lemonde.fr et le domain du cookie est lemonde.fr
+2) les cookies dits "tiers ou service tiers" : ce sont des cookies installés par des outils (souvent de type marketing) qui sont utilisés par le site mais dont le site n'est pas le concepteur ou le propriétaire, exemple je suis sur le site www.lemonde.fr et le domain du cookie est twitter.com
+
+- Pour créer un cookie, j'utilise la fonction setcookie() https://www.php.net/manual/fr/function.setcookie.php
+exemple : setcookie("prenom", "Mathilde").
+Dans l'exemple ci-dessus mon cookie ne stocke "qu'une donnée" mais je peux aussi stocker plusieurs données via un tableau associatif, exemple : 
+$donnees_a_enregister = ['couleur' => 'bleu', 'preference' => 'chocolat', 'compagnie'=>'chien'];
+foreach($donnee_a_enregister as $key=>$value){
+    setcookie("identification[$key], $value);
+}
+
+- Pour supprimer un cookie, on réutilise setcookie() avec le même nom du cookie qu'on veut supprimer mais on ne lui associe aucune valeur. 
+setcookie("preference");
+
+
